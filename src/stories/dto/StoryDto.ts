@@ -1,7 +1,7 @@
-import { Sprint } from './../../sprints/interfaces/sprint.interface';
+
 export class StoryDto {
     readonly _id?: string;
-    readonly sprint: Sprint;
+    readonly sprint: object;
     readonly storyname: string;
     readonly storyPoints: object;
     readonly created_at?: Date;

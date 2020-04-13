@@ -1,8 +1,8 @@
-import { Squad } from './../../squads/interfaces/squads.interface';
+
 
 export class SprintDto {
     readonly _id?: string;
-    readonly squad: Squad;
+    readonly squad: object;
     readonly sprintname: string;
     readonly created_at?: Date;
     readonly updated_at?: Date;
