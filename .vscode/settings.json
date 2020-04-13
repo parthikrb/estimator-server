@@ -5,6 +5,7 @@
         "lastname",
         "nestjs",
         "parthi",
-        "sprintname"
+        "sprintname",
+        "storyname"
     ]
 }
