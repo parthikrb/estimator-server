@@ -19,8 +19,6 @@ jobs:
         node-version: [10.x, 12.x]
 
     steps:
-    - name: ESLint Action
-      uses: hallee/eslint-action@1.0.1
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
@@ -30,7 +28,5 @@ jobs:
     - run: npm run build --if-present
       env:
         CI: true
-    - name: Node App Helper Actions
-      uses: guahanweb/action-nodejs-gh-pages@1.0.0
 
         
