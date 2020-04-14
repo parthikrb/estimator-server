@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Res, HttpStatus, Param, NotFoundException, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, HttpStatus, Param, NotFoundException, Put, Delete, UseGuards } from '@nestjs/common';
 import { User } from './interfaces/user.interface';
 import { UsersService } from './users.service';
 import { UserDto } from './dto/userDto';
 import { Users } from './users.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) { }
@@ -15,9 +17,9 @@ export class UsersController {
     }
 
     @Post()
-    // async addUser(@Res() res, @Users('username') creator, @Body() data: UserDto): Promise<User> {
-    async addUser(@Res() res, @Body() data: UserDto): Promise<User> {
-        const user = await this.usersService.createUser('creator', data);
+    async addUser(@Res() res, @Users('username') creator, @Body() data: UserDto): Promise<User> {
+    // async addUser(@Res() res, @Body() data: UserDto): Promise<User> {
+        const user = await this.usersService.createUser(creator, data);
         return res.status(HttpStatus.OK).json(user);
     }
 

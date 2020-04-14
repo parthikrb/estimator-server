@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Res, Body, HttpStatus, Param, NotFoundException, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Res, Body, HttpStatus, Param, NotFoundException, Put, Delete, UseGuards } from '@nestjs/common';
 import { Story } from './interfaces/story.interface';
 import { StoryDto } from './dto/StoryDto';
 import { Users } from 'src/users/users.decorator';
 import { StoriesService } from './stories.service';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('stories')
 export class StoriesController {
 

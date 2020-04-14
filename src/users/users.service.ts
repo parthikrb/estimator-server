@@ -3,12 +3,21 @@ import { User } from './interfaces/user.interface';
 import { Model } from 'mongoose';
 import { UserDto } from './dto/userDto';
 import * as bcrypt from 'bcryptjs'
+import { UserLoginDto } from './dto/userLoginDto';
 
 @Injectable()
 export class UsersService {
     constructor(
         @Inject('USER_MODEL') private readonly userModel: Model<User>
     ) { }
+
+    async findOneByUsername(username: string): Promise<User> {
+        return await this.userModel.findOne({ username }).exec();
+    }
+
+    async findOneByUsernameAndPassword(user: UserLoginDto): Promise<User> {
+        return await this.userModel.findOne({ 'username': user.username, 'password': user.password }).exec();
+    }
 
     async createUser(creator: string, data: UserDto): Promise<User> {
         const { username, password } = data;
