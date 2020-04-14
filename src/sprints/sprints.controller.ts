@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Res, Body, HttpStatus, Param, NotFoundException, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Res, Body, HttpStatus, Param, NotFoundException, Put, Delete, UseGuards } from '@nestjs/common';
 import { SprintsService } from './sprints.service';
 import { Sprint } from './interfaces/sprint.interface';
 import { SprintDto } from './dto/sprintDto';
 import { Users } from 'src/users/users.decorator';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('sprints')
 export class SprintsController {
     constructor(private readonly sprintsService: SprintsService) { }

@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Res, Body, HttpStatus, Param, NotFoundException, Put, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Res, Body, HttpStatus, Param, NotFoundException, Put, Delete, UseGuards } from '@nestjs/common';
 import { SquadsService } from './squads.service';
 import { Squad } from './interfaces/squads.interface';
 import { SquadDto } from './dto/squadsDto';
 import { Users } from '../users/users.decorator';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('squads')
 export class SquadsController {
     constructor(private readonly squadsService: SquadsService) { }
