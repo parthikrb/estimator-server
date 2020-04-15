@@ -1,10 +1,9 @@
-import { Controller, Get, Post, Body, Res, HttpStatus, Param, NotFoundException, Put, Delete, UseGuards, UsePipes } from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, HttpStatus, Param, NotFoundException, Put, Delete, UseGuards } from '@nestjs/common';
 import { User } from './interfaces/user.interface';
 import { UsersService } from './users.service';
 import { UserDto } from './dto/userDto';
 import { Users } from './users.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { ValidationPipe } from './../common/pipes/validation.pipe';
 
 
 @UseGuards(JwtAuthGuard)
@@ -18,30 +17,27 @@ export class UsersController {
     }
 
     @Post()
-    @UsePipes(ValidationPipe)
-    async addUser(@Res() res, @Users('username') creator, @Body() data: UserDto): Promise<User> {
-    // async addUser(@Res() res, @Body() data: UserDto): Promise<User> {
+    async addUser(@Res() res, @Users('username') creator: string, @Body() data: UserDto): Promise<User> {
         const user = await this.usersService.createUser(creator, data);
         return res.status(HttpStatus.OK).json(user);
     }
 
     @Get(':id')
-    async getUser(@Res() res, @Param('id') id): Promise<User> {
+    async getUser(@Res() res, @Param('id') id: string): Promise<User> {
         const user = await this.usersService.getUser(id);
         if (!user) throw new NotFoundException('User does not exists!');
         return res.status(HttpStatus.OK).json(user);
     }
 
     @Put(':id')
-    @UsePipes(ValidationPipe)
-    async updateUser(@Res() res, @Users('username') updater, @Param('id') id, @Body() data): Promise<User> {
+    async updateUser(@Res() res, @Users('username') updater: string, @Param('id') id: string, @Body() data): Promise<User> {
         const user = await this.usersService.updateUser(id, updater, data);
         if (!user) throw new NotFoundException('User does not exists!');
         return res.status(HttpStatus.OK).json(user);
     }
 
     @Delete(':id')
-    async deleteUser(@Res() res, @Param('id') id) {
+    async deleteUser(@Res() res, @Param('id') id: string) {
         const user = await this.usersService.deleteUser(id);
         if (!user) throw new NotFoundException('User does not exists!');
         const _user = await this.usersService.getAllUsers();
