@@ -1,6 +1,7 @@
-import { Controller, Post, HttpCode, HttpStatus, Body, ValidationPipe, HttpException } from '@nestjs/common';
+import { Controller, Post, HttpCode, HttpStatus, Body, ValidationPipe, HttpException, UseGuards } from '@nestjs/common';
 import { AuthService, AccessToken } from './auth.service';
 import { User } from 'src/users/interfaces/user.interface';
+import { LocalAuthGuard } from './guards/local-auth.guard';
 
 
 @Controller('auth')
@@ -9,7 +10,7 @@ export class AuthController {
     }
 
     @HttpCode(HttpStatus.OK)
-    // @UseGuards(LocalAuthGuard)
+    @UseGuards(LocalAuthGuard)
     @Post('login')
     public async login(@Body(new ValidationPipe()) user: User): Promise<AccessToken> {
         try {

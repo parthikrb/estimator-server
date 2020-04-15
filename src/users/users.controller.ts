@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Res, HttpStatus, Param, NotFoundException, Put, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Res, HttpStatus, Param, NotFoundException, Put, Delete, UseGuards, UsePipes } from '@nestjs/common';
 import { User } from './interfaces/user.interface';
 import { UsersService } from './users.service';
 import { UserDto } from './dto/userDto';
 import { Users } from './users.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { ValidationPipe } from './../common/pipes/validation.pipe';
 
 
 @UseGuards(JwtAuthGuard)
@@ -17,6 +18,7 @@ export class UsersController {
     }
 
     @Post()
+    @UsePipes(ValidationPipe)
     async addUser(@Res() res, @Users('username') creator, @Body() data: UserDto): Promise<User> {
     // async addUser(@Res() res, @Body() data: UserDto): Promise<User> {
         const user = await this.usersService.createUser(creator, data);
@@ -31,6 +33,7 @@ export class UsersController {
     }
 
     @Put(':id')
+    @UsePipes(ValidationPipe)
     async updateUser(@Res() res, @Users('username') updater, @Param('id') id, @Body() data): Promise<User> {
         const user = await this.usersService.updateUser(id, updater, data);
         if (!user) throw new NotFoundException('User does not exists!');
