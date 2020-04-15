@@ -32,6 +32,8 @@
         "bcryptjs": "^2.4.3",
         "class-transformer": "^0.2.3",
         "class-validator": "^0.11.1",
+        "csurf": "^1.11.0",
+        "helmet": "^3.22.0",
         "mongoose": "^5.9.7",
         "nestjs-mongoose-crud": "^2.0.0",
         "passport": "^0.4.1",
