@@ -1,13 +1,15 @@
+import { IsNotEmpty, IsString, IsBooleanString, IsDateString } from "class-validator";
+
 export class UserDto {
     readonly _id?: string;
-    readonly firstname: string;
-    readonly lastname: string;
-    readonly username: string;
-    readonly password: string;
-    readonly email: string;
-    readonly isAdmin: boolean;
-    readonly created_at?: Date;
-    readonly updated_at?: Date;
-    readonly created_by?: string;
-    readonly updated_by?: string;
+    @IsNotEmpty() @IsString() readonly firstname: string;
+    @IsNotEmpty() @IsString()readonly lastname: string;
+    @IsNotEmpty() @IsString() readonly username: string;
+    @IsNotEmpty() @IsString() readonly password: string;
+    @IsNotEmpty() @IsString() readonly email: string;
+    @IsNotEmpty() @IsBooleanString() readonly isAdmin: boolean;
+    @IsDateString() readonly created_at?: Date;
+    @IsDateString() readonly updated_at?: Date;
+    @IsDateString() readonly created_by?: string;
+    @IsDateString() readonly updated_by?: string;
 }
