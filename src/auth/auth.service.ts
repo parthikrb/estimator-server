@@ -17,7 +17,6 @@ export class AuthService {
   public async validateUser(user: UserLoginDto): Promise<UserLoginDto> {
     try {
       const existedUser: UserLoginDto = await this.usersService.findOneByUsername(user.username);
-      Logger.log('User '+ JSON.stringify(user));
       if (existedUser && await bcrypt.compare(user.password, existedUser.password)) {
         return existedUser || null;
       }
