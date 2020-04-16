@@ -7,7 +7,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 
 @UseGuards(JwtAuthGuard)
-@Controller('users')
+@Controller('user')
 export class UsersController {
     constructor(private readonly usersService: UsersService) { }
 
@@ -18,30 +18,30 @@ export class UsersController {
 
     @Post()
     async addUser(@Res() res, @Users('username') creator: string, @Body() data: UserDto): Promise<User> {
-        const user = await this.usersService.createUser(creator, data);
-        return res.status(HttpStatus.OK).json(user);
+        await this.usersService.createUser(creator, data);
+        return res.status(HttpStatus.OK);
     }
 
     @Get(':id')
     async getUser(@Res() res, @Param('id') id: string): Promise<User> {
         const user = await this.usersService.getUser(id);
         if (!user) throw new NotFoundException('User does not exists!');
-        return res.status(HttpStatus.OK).json(user);
+        return res.status(HttpStatus.OK)
     }
 
     @Put(':id')
     async updateUser(@Res() res, @Users('username') updater: string, @Param('id') id: string, @Body() data): Promise<User> {
         const user = await this.usersService.updateUser(id, updater, data);
         if (!user) throw new NotFoundException('User does not exists!');
-        return res.status(HttpStatus.OK).json(user);
+        return res.status(HttpStatus.OK);
     }
 
     @Delete(':id')
     async deleteUser(@Res() res, @Param('id') id: string) {
         const user = await this.usersService.deleteUser(id);
         if (!user) throw new NotFoundException('User does not exists!');
-        const _user = await this.usersService.getAllUsers();
-        return res.status(HttpStatus.OK).json(_user);
+        // const _user = await this.usersService.getAllUsers();
+        return res.status(HttpStatus.OK);
     }
 
 
