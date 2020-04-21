@@ -6,37 +6,36 @@ import { Users } from 'src/users/users.decorator';
 import { AuthGuard } from '@nestjs/passport';
 
 @UseGuards(AuthGuard('jwt'))
-@Controller('sprints')
+@Controller('')
 export class SprintsController {
     constructor(private readonly sprintsService: SprintsService) { }
 
-    @Get()
+    @Get('sprints')
     async getAllSprints(): Promise<Sprint[]> {
         return await this.sprintsService.getAllSprints();
     }
 
-    @Post()
-    // async addSprint(@Res() res, @Users('username') creator, @Body() data: SprintDto): Promise<Sprint> {
-    async addSprint(@Res() res, @Body() data: SprintDto): Promise<Sprint> {
-        const sprint = await this.sprintsService.createSprint('creator', data);
+    @Post('sprint')
+    async addSprint(@Res() res, @Users('username') creator, @Body() data: SprintDto): Promise<Sprint> {
+        const sprint = await this.sprintsService.createSprint(creator, data);
         return res.status(HttpStatus.OK).json(sprint);
     }
 
-    @Get(':id')
+    @Get('sprints/:id')
     async getSprint(@Res() res, @Param('id') id): Promise<Sprint> {
         const sprint = await this.sprintsService.getSprint(id);
         if (!sprint) throw new NotFoundException('Sprint does not exists!');
         return res.status(HttpStatus.OK).json(sprint);
     }
 
-    @Put(':id')
+    @Put('sprints/:id')
     async updateSprint(@Res() res, @Users('username') updater, @Param('id') id, @Body() data): Promise<Sprint> {
         const sprint = await this.sprintsService.updateSprint(id, updater, data);
         if (!sprint) throw new NotFoundException('Sprint does not exists!');
         return res.status(HttpStatus.OK).json(sprint);
     }
 
-    @Delete(':id')
+    @Delete('sprints/:id')
     async deleteSprint(@Res() res, @Param('id') id) {
         const sprint = await this.sprintsService.deleteSprint(id);
         if (!sprint) throw new NotFoundException('Sprint does not exists!');

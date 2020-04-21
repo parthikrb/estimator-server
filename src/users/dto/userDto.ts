@@ -8,8 +8,8 @@ export class UserDto {
     @IsNotEmpty() @IsString() readonly password: string;
     @IsNotEmpty() @IsString() readonly email: string;
     @IsNotEmpty() @IsBoolean() readonly isAdmin: boolean;
-    @IsDateString() @IsOptional() readonly created_at?: Date;
-    @IsDateString() @IsOptional() readonly updated_at?: Date;
-    @IsDateString() @IsOptional() readonly created_by?: string;
-    @IsDateString() @IsOptional() readonly updated_by?: string;
+    @IsDateString() @IsOptional() readonly createdAt?: Date;
+    @IsDateString() @IsOptional() readonly updatedAt?: Date;
+    @IsDateString() @IsOptional() readonly createdBy?: string;
+    @IsDateString() @IsOptional() readonly updatedBy?: string;
 }

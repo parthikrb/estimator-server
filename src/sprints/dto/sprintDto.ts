@@ -1,11 +1,16 @@
+import { IsObject, IsNotEmpty, IsString, IsNumber } from "class-validator";
 
 
 export class SprintDto {
     readonly _id?: string;
-    readonly squad: object;
-    readonly sprintname: string;
-    readonly created_at?: Date;
-    readonly updated_at?: Date;
-    readonly created_by?: string;
-    readonly updated_by?: string;
+    @IsObject() @IsNotEmpty() readonly squad: object;
+    @IsString() @IsNotEmpty() readonly sprintname: string;
+    @IsNumber() readonly devCapacity: number;
+    @IsNumber() readonly qaCapacity: number;
+    @IsNumber() readonly poCapacity: number;
+    @IsNumber() readonly baCapacity: number;
+    readonly createdAt?: Date;
+    readonly updatedAt?: Date;
+    readonly createdBy?: string;
+    readonly updatedBy?: string;
 }

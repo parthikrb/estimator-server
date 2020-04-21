@@ -8,8 +8,8 @@ export interface User extends Document {
     readonly password: string;
     readonly email: string;
     readonly isAdmin: boolean;
-    readonly createdAt: Date;
-    readonly createdBy: string;
-    readonly updatedAt: Date;
-    readonly updatedBy: string;
+    createdAt?: Date;
+    createdBy?: string;
+    updatedAt?: any;
+    updatedBy?: string;
 }
