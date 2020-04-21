@@ -3,8 +3,8 @@ export class SquadDto {
     readonly squadname: string;
     readonly posm: object[];
     readonly accessCode?: string;
-    readonly created_at?: Date;
-    readonly updated_at?: Date;
-    readonly created_by?: string;
-    readonly updated_by?: string;
+    readonly createdAt?: Date;
+    readonly updatedAt?: Date;
+    readonly createdBy?: string;
+    readonly updatedBy?: string;
   }

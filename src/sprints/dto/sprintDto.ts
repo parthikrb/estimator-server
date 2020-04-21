@@ -9,8 +9,8 @@ export class SprintDto {
     @IsNumber() readonly qaCapacity: number;
     @IsNumber() readonly poCapacity: number;
     @IsNumber() readonly baCapacity: number;
-    readonly created_at?: Date;
-    readonly updated_at?: Date;
-    readonly created_by?: string;
-    readonly updated_by?: string;
+    readonly createdAt?: Date;
+    readonly updatedAt?: Date;
+    readonly createdBy?: string;
+    readonly updatedBy?: string;
 }

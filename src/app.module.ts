@@ -11,11 +11,12 @@ import { StoriesModule } from './stories/stories.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { HttpErrorFilter } from './common/filters/http-error.filter';
+import { EventsGateway } from './gateways/events.gateway';
 
 @Module({
   imports: [DatabaseModule, CacheModule.register(), ConfigModule.forRoot({ isGlobal: true, }), UsersModule, SquadsModule, SprintsModule, StoriesModule, AuthModule],
   controllers: [AppController],
-  providers: [AppService,
+  providers: [AppService, EventsGateway,
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor
