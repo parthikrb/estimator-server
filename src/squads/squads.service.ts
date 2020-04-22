@@ -30,6 +30,10 @@ export class SquadsService {
         return squad;
     }
 
+    async getSquadByAccessCode(accessCode: string): Promise<Squad> {
+        return await this.squadModel.findOne({ accessCode });
+    }
+
     async updateSquad(_id: string, updater: string, data: SquadDto): Promise<Squad> {
         await this.squadModel.findByIdAndUpdate(_id, { ...data, updatedAt: Date.now(), updatedBy: updater }).exec();
         return await this.squadModel.findById(_id);

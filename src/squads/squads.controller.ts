@@ -10,7 +10,7 @@ import { AuthGuard } from '@nestjs/passport';
 export class SquadsController {
     constructor(private readonly squadsService: SquadsService) { }
 
-
+    @UseGuards(AuthGuard('jwt'))
     @Get('squads')
     async getAllSquads(): Promise<Squad[]> {
         return await this.squadsService.getAllSquads();
@@ -23,10 +23,17 @@ export class SquadsController {
         return res.status(HttpStatus.OK);
     }
 
-    @UseGuards(AuthGuard('jwt'))
-    @Get('squad/:id')
-    async getSquad(@Res() res, @Param('id') id): Promise<Squad> {
-        const squad = await this.squadsService.getSquad(id);
+    
+    // @Get('squad/:id')
+    // async getSquad(@Res() res, @Param('id') id): Promise<Squad> {
+    //     const squad = await this.squadsService.getSquad(id);
+    //     if (!squad) throw new NotFoundException('Squad does not exists!');
+    //     return res.status(HttpStatus.OK).json(squad);
+    // }
+
+    @Get('squad/:accessCode')
+    async getSquadByAccessCode(@Res() res, @Param('accessCode') accessCode): Promise<Squad> {
+        const squad = await this.squadsService.getSquadByAccessCode(accessCode);
         if (!squad) throw new NotFoundException('Squad does not exists!');
         return res.status(HttpStatus.OK).json(squad);
     }
