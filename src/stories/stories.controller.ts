@@ -6,38 +6,38 @@ import { StoriesService } from './stories.service';
 import { AuthGuard } from '@nestjs/passport';
 
 @UseGuards(AuthGuard('jwt'))
-@Controller('stories')
+@Controller('')
 export class StoriesController {
 
     constructor(private readonly storiesService: StoriesService) { }
 
-    @Get()
+    @Get('stories')
     async getAllStories(): Promise<Story[]> {
         return await this.storiesService.getAllStories();
     }
 
-    @Post()
-    // async addStory(@Res() res, @Users('username') creator, @Body() data: StoryDto): Promise<Story> {
-    async addStory(@Res() res, @Body() data: StoryDto): Promise<Story> {
-        const story = await this.storiesService.createStory('creator', data);
+    @Post('story')
+    async addStory(@Res() res, @Users('username') creator, @Body() data: StoryDto): Promise<Story> {
+        // async addStory(@Res() res, @Body() data: StoryDto): Promise<Story> {
+        const story = await this.storiesService.createStory(creator, data);
         return res.status(HttpStatus.OK).json(story);
     }
 
-    @Get(':id')
-    async getStory(@Res() res, @Param('id') id): Promise<Story> {
-        const story = await this.storiesService.getStory(id);
+    @Get('story/:id')
+    async getStory(@Res() res, @Param('id') accessCode): Promise<Story> {
+        const story = await this.storiesService.getStoryByAccessCode(accessCode);
         if (!story) throw new NotFoundException('Story does not exists!');
         return res.status(HttpStatus.OK).json(story);
     }
 
-    @Put(':id')
+    @Put('story/:id')
     async updateStory(@Res() res, @Users('username') updater, @Param('id') id, @Body() data): Promise<Story> {
         const story = await this.storiesService.updateStory(id, updater, data);
         if (!story) throw new NotFoundException('Story does not exists!');
         return res.status(HttpStatus.OK).json(story);
     }
 
-    @Delete(':id')
+    @Delete('story/:id')
     async deleteStory(@Res() res, @Param('id') id) {
         const story = await this.storiesService.deleteStory(id);
         if (!story) throw new NotFoundException('Story does not exists!');
