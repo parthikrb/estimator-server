@@ -10,7 +10,7 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
 
     @WebSocketServer()
     server: Server;
-    
+
     users = [];
 
     private logger = new Logger('Gateway');
@@ -60,13 +60,35 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
         }
     }
 
+    @SubscribeMessage('vote')
+    async castVote(client: Socket, data: any): Promise<GatewayEventInterface<any>> {
+        try {
+            console.log('Inside');
+            const _users = [...this.users];
+            _users.forEach(user => {
+                if (user.id === client.id) user['vote'] = data.vote
+            });
+            this.logger.log(`User Voted, ${JSON.stringify(_users)}`);
+            const event = 'collectVotes';
+            const payload = _users.reduce((r, a) => {
+                (r[a['room']] = r[a['room']] || []).push(a);
+                return r;
+            }, {});
+            client.broadcast.emit(event, payload);
+
+        } catch (error) {
+            this.logger.error(error);
+        }
+        return;
+    }
+
     handleDisconnect(client: Socket) {
         this.logger.log(`Client disconnected: ${client.id}`);
 
         const userToDelete = [client.id];
 
         this.users.reduceRight((acc, obj, index) => {
-            if(userToDelete.indexOf(obj.id) > -1) this.users.splice(index, 1);
+            if (userToDelete.indexOf(obj.id) > -1) this.users.splice(index, 1);
         }, {})
 
         const event = 'roomUsers';
