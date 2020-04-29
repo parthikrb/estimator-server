@@ -25,7 +25,7 @@ export class StoriesService {
         return story;
     }
 
-    async getStoryByAccessCode(sprint: string) : Promise<Story[]> {
+    async getStoryBySprintName(sprint: string) : Promise<Story[]> {
         return await this.storyModel.find({sprint}).exec();
     }
 
