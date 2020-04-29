@@ -66,7 +66,10 @@ export class EventsGateway implements OnGatewayInit, OnGatewayConnection, OnGate
             console.log('Inside');
             const _users = [...this.users];
             _users.forEach(user => {
-                if (user.id === client.id) user['vote'] = data.vote
+                if (user.id === client.id) {
+                    user['vote'] = data.vote;
+                    user[user.role] = data.vote;
+                }
             });
             this.logger.log(`User Voted, ${JSON.stringify(_users)}`);
             const event = 'collectVotes';

@@ -14,6 +14,7 @@ export class AuthController {
     @Post('login')
     public async login(@Body(new ValidationPipe()) user: User): Promise<AccessToken> {
         try {
+            console.log('Inside')
             return await this.authService.login(user);
         } catch (err) {
             if (err instanceof HttpException) {

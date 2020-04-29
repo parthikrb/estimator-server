@@ -25,6 +25,10 @@ export class StoriesService {
         return story;
     }
 
+    async getStoryBySprintName(sprint: string) : Promise<Story[]> {
+        return await this.storyModel.find({sprint}).exec();
+    }
+
     async updateStory(_id: string, updater: string, data: StoryDto): Promise<Story> {
         await this.storyModel.findByIdAndUpdate(_id, { ...data, updatedAt: Date.now(), updatedBy: updater }).exec();
         return await this.storyModel.findById(_id);

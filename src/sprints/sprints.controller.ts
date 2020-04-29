@@ -17,15 +17,15 @@ export class SprintsController {
 
     @Post('sprint')
     async addSprint(@Res() res, @Users('username') creator, @Body() data: SprintDto): Promise<Sprint> {
-        const sprint = await this.sprintsService.createSprint(creator, data);
-        return res.status(HttpStatus.OK).json(sprint);
+        await this.sprintsService.createSprint(creator, data);
+        return res.status(HttpStatus.OK);
     }
 
     @Get('sprints/:id')
     async getSprint(@Res() res, @Param('id') id): Promise<Sprint> {
         const sprint = await this.sprintsService.getSprint(id);
         if (!sprint) throw new NotFoundException('Sprint does not exists!');
-        return res.status(HttpStatus.OK).json(sprint);
+        return sprint;
     }
 
     @Put('sprints/:id')
